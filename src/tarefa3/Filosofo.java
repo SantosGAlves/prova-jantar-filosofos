@@ -13,7 +13,7 @@ public class Filosofo extends Thread {
     private final Random random = new Random();
     private final SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss.SSS");
     
-    // Métricas
+
     private int vezesComeu = 0;
     private long tempoTotalEspera = 0;
     private long tempoTotalComendo = 0;
@@ -26,7 +26,7 @@ public class Filosofo extends Thread {
         this.mesa = mesa;
     }
 
-    // Métodos para Métricas (getters)
+
     public int getFilosofoId() { return id; }
     public int getVezesComeu() { return vezesComeu; }
     public long getTempoTotalEspera() { return tempoTotalEspera; }
@@ -48,27 +48,26 @@ public class Filosofo extends Thread {
     public void run() {
         try {
             while (rodando) {
-                // 1. Pensar
+
                 log("está PENSANDO.");
                 tempoAleatorio();
 
                 long inicioEspera = System.currentTimeMillis();
                 
-                // Tentar sentar (adquirir permissão da mesa)
+
                 log("está FAMINTO e tentando ACESSAR A MESA (Semáforo).");
                 mesa.acquire();
                 
                 try {
-                    // 2. Tentar pegar garfo esquerdo
+
                     log("pegou a MESA. Tentando pegar Garfo " + garfoEsquerdo.getId() + " (Esq).");
                     synchronized (garfoEsquerdo) {
-                        // 2b. Tentar pegar garfo direito
+
                         log("pegou Garfo " + garfoEsquerdo.getId() + ". Tentando pegar Garfo " + garfoDireito.getId() + " (Dir).");
                         synchronized (garfoDireito) {
                             long fimEspera = System.currentTimeMillis();
                             tempoTotalEspera += (fimEspera - inicioEspera);
 
-                            // 3. Comer
                             log("conseguiu pegar ambos e começou a COMER.");
                             long inicioComer = System.currentTimeMillis();
                             vezesComeu++;
@@ -78,9 +77,8 @@ public class Filosofo extends Thread {
                         }
                     }
                 } finally {
-                    // 4. Terminar e Soltar
                     log("terminou de comer e SOLTOU os Garfos e a MESA.");
-                    mesa.release(); // Solta a permissão da mesa
+                    mesa.release(); 
                 }
             }
         } catch (InterruptedException e) {

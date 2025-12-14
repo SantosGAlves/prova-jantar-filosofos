@@ -10,7 +10,6 @@ public class Filosofo extends Thread {
     private final Random random = new Random();
     private final SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss.SSS");
     
-    // Métricas
     private int vezesComeu = 0;
     private long tempoTotalEspera = 0;
     private long tempoTotalComendo = 0;
@@ -20,8 +19,6 @@ public class Filosofo extends Thread {
         this.id = id;
         this.mesa = mesa;
     }
-
-    // Métodos para Métricas (getters)
     public int getFilosofoId() { return id; }
     public int getVezesComeu() { return vezesComeu; }
     public long getTempoTotalEspera() { return tempoTotalEspera; }
@@ -43,22 +40,17 @@ public class Filosofo extends Thread {
     public void run() {
         try {
             while (rodando) {
-                // 1. Pensar
                 log("está PENSANDO.");
                 tempoAleatorio();
 
                 long inicioEspera = System.currentTimeMillis();
                 
-                // 2. Pedir para comer (Monitor bloqueia aqui se necessário)
                 log("está FAMINTO e pedindo permissão para COMER (Monitor/Mesa).");
-                mesa.pegarGarfos(id); // Bloqueia se vizinhos estiverem comendo
+                mesa.pegarGarfos(id); 
                 
                 long fimEspera = System.currentTimeMillis();
                 tempoTotalEspera += (fimEspera - inicioEspera);
-
-                // Se o método retornou, ele está COMENDO
                 
-                // 3. Comer
                 log("conseguiu pegar ambos e começou a COMER.");
                 long inicioComer = System.currentTimeMillis();
                 vezesComeu++;
@@ -66,7 +58,6 @@ public class Filosofo extends Thread {
                 long fimComer = System.currentTimeMillis();
                 tempoTotalComendo += (fimComer - inicioComer);
 
-                // 4. Devolver
                 log("terminou de comer e SOLTOU os Garfos (Monitor/Mesa).");
                 mesa.devolverGarfos(id);
             }

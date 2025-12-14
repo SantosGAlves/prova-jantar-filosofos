@@ -1,15 +1,13 @@
 package tarefa4;
 
+import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import java.util.List;
-import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 public class Main {
     
-    // Calcula o Coeficiente de Variação (CV)
     private static double calcularCoeficienteVariacao(List<Filosofo> filosofos) {
         List<Integer> refeicoes = filosofos.stream()
             .map(Filosofo::getVezesComeu)
@@ -55,7 +53,6 @@ public class Main {
             Thread.currentThread().interrupt();
         }
 
-        // COLETANDO MÉTRICAS
         long totalTempoComendo = 0;
         long totalRefeicoes = 0;
         long totalTempoEspera = 0;
@@ -82,8 +79,7 @@ public class Main {
             totalTempoEspera += tempoTotalEspera;
         }
         System.out.println("--------------------------------------------------------------------------------------------------------------------------------");
-
-        // MÉTRICAS GLOBAIS
+        
         double cv = calcularCoeficienteVariacao(List.of(filosofos));
         double utilizacaoGarfosMedia = (totalTempoComendo / (double) numFilosofos) / TEMPO_EXECUCAO_MS * 100;
 

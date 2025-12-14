@@ -1,15 +1,13 @@
 package tarefa2;
 
+import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import java.util.List;
-import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 public class Main {
     
-    // Calcula o Coeficiente de Variação (CV)
     private static double calcularCoeficienteVariacao(List<Filosofo> filosofos) {
         List<Integer> refeicoes = filosofos.stream()
             .map(Filosofo::getVezesComeu)
@@ -27,7 +25,6 @@ public class Main {
 
         double desvioPadrao = Math.sqrt(somaDiferencasQuadrado / refeicoes.size());
 
-        // CV = (Desvio Padrão / Média) * 100
         return (desvioPadrao / media) * 100;
     }
 
@@ -49,22 +46,19 @@ public class Main {
         System.out.println("=== Tarefa 2: Prevenção de Deadlock Iniciada (5 min) ===");
         for (Filosofo f : filosofos) f.start();
 
-        // Agendador para parar as threads após 5 minutos
         ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
         scheduler.schedule(() -> {
             for (Filosofo f : filosofos) f.parar();
             scheduler.shutdown();
         }, TEMPO_EXECUCAO_MS, TimeUnit.MILLISECONDS);
 
-
-        // Espera todas as threads finalizarem
         try {
             for (Filosofo f : filosofos) f.join();
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
 
-        // COLETANDO MÉTRICAS
+
         long totalTempoComendo = 0;
         long totalRefeicoes = 0;
         long totalTempoEspera = 0;
@@ -92,7 +86,7 @@ public class Main {
         }
         System.out.println("--------------------------------------------------------------------------------------------------------------------------------");
 
-        // MÉTRICAS GLOBAIS
+
         double cv = calcularCoeficienteVariacao(List.of(filosofos));
         double utilizacaoGarfosMedia = (totalTempoComendo / (double) numFilosofos) / TEMPO_EXECUCAO_MS * 100;
 

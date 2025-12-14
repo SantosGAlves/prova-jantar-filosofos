@@ -11,7 +11,6 @@ public class Filosofo extends Thread {
     private final Random random = new Random();
     private final SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss.SSS");
     
-    // Métricas
     private int vezesComeu = 0;
     private long tempoTotalEspera = 0;
     private long tempoTotalComendo = 0;
@@ -23,7 +22,7 @@ public class Filosofo extends Thread {
         this.garfo2 = segundo;
     }
 
-    // Métodos para Métricas (getters)
+
     public int getFilosofoId() { return id; }
     public int getVezesComeu() { return vezesComeu; }
     public long getTempoTotalEspera() { return tempoTotalEspera; }
@@ -32,7 +31,6 @@ public class Filosofo extends Thread {
     public void parar() { this.rodando = false; }
 
     private void log(String acao) {
-        // Log só é exibido se não estiver no modo de teste de 5 minutos
         if (Thread.currentThread().isAlive() && !rodando) return; 
         System.out.println("[" + df.format(new Date()) + "] Filósofo " + id + " " + acao);
     }
@@ -46,23 +44,21 @@ public class Filosofo extends Thread {
     public void run() {
         try {
             while (rodando) {
-                // 1. Pensar
+
                 log("está PENSANDO.");
                 tempoAleatorio();
 
                 long inicioEspera = System.currentTimeMillis();
                 
-                // 2. Tentar pegar garfo 1
+
                 log("está FAMINTO e tentando pegar Garfo " + garfo1.getId() + " (1º garfo).");
                 synchronized (garfo1) {
-                    // 2b. Tentar pegar garfo 2
                     log("pegou Garfo " + garfo1.getId() + ". Tentando pegar Garfo " + garfo2.getId() + " (2º garfo).");
                     synchronized (garfo2) {
                         
                         long fimEspera = System.currentTimeMillis();
                         tempoTotalEspera += (fimEspera - inicioEspera);
 
-                        // 3. Começar a Comer
                         log("conseguiu pegar ambos e começou a COMER.");
                         long inicioComer = System.currentTimeMillis();
                         vezesComeu++;
@@ -71,7 +67,7 @@ public class Filosofo extends Thread {
                         long fimComer = System.currentTimeMillis();
                         tempoTotalComendo += (fimComer - inicioComer);
 
-                        // 4. Terminar e Soltar
+
                         log("terminou de comer e SOLTOU os Garfos.");
                     }
                 }

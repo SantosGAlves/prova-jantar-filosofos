@@ -19,14 +19,24 @@ Este repositório contém as soluções implementadas para a avaliação final, 
 Na raiz do projeto, execute:
 ```bash
 javac -d bin src/tarefa*/*.java
+Execução dos Testes
+Tarefa 1 (Deadlock):
+
+Bash
 
 java -cp bin tarefa1.Main
+Tarefa 2 (Hierarquia - 5 min):
+
+Bash
 
 java -cp bin tarefa2.Main
+Tarefa 3 (Semáforos - 5 min):
+
+Bash
 
 java -cp bin tarefa3.Main
+Tarefa 4 (Monitores - 5 min):
+
+Bash
 
 java -cp bin tarefa4.Main
-
-📊 Resultados
-Para ver a análise completa de performance e justiça, consulte o arquivo RELATORIO.md.

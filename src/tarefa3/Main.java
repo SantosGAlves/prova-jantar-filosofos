@@ -1,15 +1,13 @@
 package tarefa3;
-import java.util.concurrent.Semaphore;
+import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
-import java.util.List;
-import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 public class Main {
     
-    // Calcula o Coeficiente de Variação (CV)
     private static double calcularCoeficienteVariacao(List<Filosofo> filosofos) {
         List<Integer> refeicoes = filosofos.stream()
             .map(Filosofo::getVezesComeu)
@@ -58,7 +56,6 @@ public class Main {
             Thread.currentThread().interrupt();
         }
 
-        // COLETANDO MÉTRICAS
         long totalTempoComendo = 0;
         long totalRefeicoes = 0;
         long totalTempoEspera = 0;
@@ -79,17 +76,15 @@ public class Main {
 
             System.out.printf("| %-2d | %-10d | %-18d | %-18.2f | %-17d | %-14.2f |%n", 
                 f.getFilosofoId(), refeicoes, tempoTotalEspera, tempoMedioEspera, tempoTotalComendo, taxaUtilizacao);
-
+                
             totalTempoComendo += tempoTotalComendo;
             totalRefeicoes += refeicoes;
             totalTempoEspera += tempoTotalEspera;
         }
         System.out.println("--------------------------------------------------------------------------------------------------------------------------------");
 
-        // MÉTRICAS GLOBAIS
         double cv = calcularCoeficienteVariacao(List.of(filosofos));
         double utilizacaoGarfosMedia = (totalTempoComendo / (double) numFilosofos) / TEMPO_EXECUCAO_MS * 100;
-
         System.out.printf("Refeições Totais: %d%n", totalRefeicoes);
         System.out.printf("Coeficiente de Variação (Fairness): %.2f%%%n", cv);
         System.out.printf("Taxa Média de Utilização de Garfos (Todos Garfos / 5 min): %.2f%%%n", utilizacaoGarfosMedia);
